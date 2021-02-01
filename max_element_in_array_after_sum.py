@@ -6,7 +6,7 @@ def arrayManipulation(n, queries):
     for _ in range(1, n+1):
         intial.append(0)
     for query in queries:
-        for i in range(query[0]-1, query[1]):
+        for i in range(qauery[0]-1, query[1]):
             intial[i] += query[2]  
     return max(intial)
     
@@ -29,4 +29,5 @@ def optimised(n, queries):
     
     
 # Driver code:
-print(arrayManipulation(10, [[1,5,3], [4,8,7], [6,9,1]]))
+# print(arrayManipulation(10, [[1,5,3], [4,8,7], [6,9,1]]))
+print(optimised(4, [[2,3,603], [1,1,286], [4,4,882]]))
