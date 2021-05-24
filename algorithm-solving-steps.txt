@@ -1,0 +1,19 @@
+1. Given(5 mins)
+2. Asked(10 mins)
+  1. testcase(1) i/p and o/p (Best Case)
+  2. testcase(2) i/p and o/p (Average case) 
+  3. testcase(3) i/p and o/p (Worst case)
+3. Approach
+  1. Naive(20 mins)
+  2. Optimised(25 mins)
+5. Complexity calculation(5 mins)
+  1. time
+    1. Naive
+    2. Optimised
+  2. Space
+    1. Naive
+    2. Optimised
+6. Explain execution with example(5 mins)
+7. Solution (PHP / Python)(15 mins)
+
+  

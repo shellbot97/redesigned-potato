@@ -1,0 +1,38 @@
+Given an array of integers, return indices of the two numbers such that they add up to a specific target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+Example:
+
+Given nums = [2, 7, 11, 15], target = 9,
+
+Because nums[0] + nums[1] = 2 + 7 = 9,
+return [0, 1]
+
+
+ 
+1. Given
+  array of integers, return indices of the two numbers such that they add up to a specific target
+2. Asked
+  1. testcase(1) i/p and o/p (Best Case)
+    >>nums = [2, 7, 11, 15], target = 9
+    >>[0, 1]
+  2. testcase(2) i/p and o/p (Average case) 
+    >>nums = [2, -1, 11, 11], target = 10
+    >>[1,2]
+  3. testcase(3) i/p and o/p (Worst case)
+    >>nums = [1, 3, 4, 5, 2], target = 10
+    >>[0,3]
+3. Approach
+  1. Naive
+    
+  2. Optimised
+5. Complexity calculation
+  1. time
+    1. Naive
+    2. Optimised
+  2. Space
+    1. Naive
+    2. Optimised
+6. Explain execution with example
+7. Solution (PHP / Python)
