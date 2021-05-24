@@ -1,4 +1,4 @@
-# amazon_interview
+# interview
 
 1. HackerRank
 2. HackerEarth
