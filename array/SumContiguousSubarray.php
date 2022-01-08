@@ -5,6 +5,7 @@ $testCase2 = [1,2,-4,4,0,6,7,-17,9];
 $expectedResultCase2 = [4,0,6,7];
 
 // https://www.geeksforgeeks.org/largest-sum-contiguous-subarray/
+// https://paiza.io/projects/NNNO9LLV-aJ9q3zS4EDTKA?language=php
 function getContiguousSubArrayWithLargestSum($mainArray){
     $maximumSumSubArray = [];
     $maximumSum = 0;
