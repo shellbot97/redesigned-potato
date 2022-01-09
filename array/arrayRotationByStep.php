@@ -1,5 +1,6 @@
 <?php
-// Your code here!
+// https://paiza.io/projects/hM3K7-v9YtoVrlHkJWU7yg?language=php
+// https://www.geeksforgeeks.org/array-rotation/
 
 $testCase1 = [1,2,3,4,5,6,7,8,9,10,11,12,13];
 $step = 4;
