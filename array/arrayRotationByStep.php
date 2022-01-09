@@ -1,33 +1,41 @@
-// https://paiza.io/projects/hM3K7-v9YtoVrlHkJWU7yg?language=php
-// https://www.geeksforgeeks.org/array-rotation/
-
 <?php
 // Your code here!
 
-$testCase1 = [1,2,3,4,5,6,7];
-$step = 2;
+$testCase1 = [1,2,3,4,5,6,7,8,9,10,11,12,13];
+$step = 4;
 
 /**
  * rotates values in arrayToBeRotated by step  
  * arrayToBeRotated = [1,2,3,4,5,6,7] step = 2 | expected : [3,4,5,6,7,1,2]
  * i -> i+2
+ * 1234567
  * 3214567
  * 3412567
  * 3452167
  * 3456127
  * 3456721
  * 3456712 // step = 1
+ * i -> i+3
+ * 1234567 -> 4567123
+ * 4231567
+ * 4531267
+ * 4561237
+ * 4567231
+ * 4567132 // step = 2
+ * 4567123 // step 1
 **/
-function rotateArrayByStep(int $step= 0, array $arrayToBeRotated = []) : array
+function rotateArrayByStep(int $step = 0, array $arrayToBeRotated = []) : array
 {
-    $rotatedArray = [];
     if ($step <= 0) {
         return $arrayToBeRotated;
     }
-    for ($i = 0; $i < count($arrayToBeRotated); $i++) {
-        swapValuesAtIndexes($i, $i+1, $arrayToBeRotated);
+    for ($i = 0; $i < count($arrayToBeRotated)-1; $i++) {
+        if(!isset($arrayToBeRotated[$i+$step])) {
+            $step--;
+        }
+       $arrayToBeRotated = swapValuesAtIndexes($i, $i+$step, $arrayToBeRotated);
     }
-    return $rotatedArray;
+    return $arrayToBeRotated;
 }
 
 /**
