@@ -5,20 +5,52 @@
 $testCase1 = [1,2,3,4,5,6,7,8,9,0];
 $step = 2;
 
+/**
+ * rotates array in 2 directions by 1 step
+ * if arrayToBeRotated = a
+ *     rotate array anticlockwise
+ * elseif arrayToBeRotated = c
+ *     rotate array clockwise
+ **/
 function rotateArrayCyclically(string $direction = 'a', array $arrayToBeRotated = []) : array
 {
-    if(count($arrayToBeRotated) == 0){
+    if(count($arrayToBeRotated) == 0 && ($direction != 'a' || $direction != 'c')){
         return $arrayToBeRotated;
     }
-    
+    return $direction == 'a' ? rotateAntiClockwise($arrayToBeRotated) : rotateClockwise($arrayToBeRotated);
 }
 
-
-function swapElementsAtIndices(array $arrayToBeSwapped = [], int $index = 0, int $index2 = 0)
+/**
+ * 1234567
+ * 2345671
+ **/
+function rotateClockwise(array $arrayToBeRotated = []) : array
 {
-    if (($index1 == $index2) || ($index1 == 0) || ($index2 == 0) || !isset($arrayToBeRotated[$index1]) || !isset($arrayToBeRotated[$index2])) {
-        return $arrayToBeSwapped;
+    $first = $arrayToBeRotated[0];
+    for ($i = 0; $i < count($arrayToBeRotated); $i++) {
+        $arrayToBeRotated[$i] = isset($arrayToBeRotated[$i+1]) ? $arrayToBeRotated[$i+1] : $first;
     }
+    return $arrayToBeRotated;
 }
+
+/**
+ * 1234567
+ * 7123456
+ **/
+function rotateAntiClockwise(array $arrayToBeRotated = []) : array
+{
+    $last = end($arrayToBeRotated);
+    for ($i = count($arrayToBeRotated)-1; $i >= 0; $i--) {        
+        $arrayToBeRotated[$i] = isset($arrayToBeRotated[$i-1]) ? $arrayToBeRotated[$i-1] : $last;
+    }
+    return $arrayToBeRotated;
+}
+
+echo "before rotating\n";
+print_r($testCase1);
+echo "Anticlockwise\n";
+print_r(rotateArrayCyclically('a', $testCase1));
+echo "Clockwise\n";
+print_r(rotateArrayCyclically('c', $testCase1));
 
 ?>
