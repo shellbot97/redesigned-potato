@@ -4,6 +4,11 @@
 
 $testCase1 = [1,2,3,4,5,6,7,8,9];
 
+
+/**
+ * return -1 of validation fails
+ * -2 if element doesnt exist in array
+**/
 function binarySearchInArray($arrayToBeSearched = [], $valueToBeSearched = '') : int
 {
     $sizeOfArray = count($arrayToBeSearched);
