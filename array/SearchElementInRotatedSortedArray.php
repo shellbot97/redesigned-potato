@@ -3,7 +3,7 @@
 // https://paiza.io/projects/TeWNffWBC8iEycDsLxnkLg?language=php
 
 $testCase1 = [4,5,6,7,8,9,1,2,3];
-$findElement = 1;
+$findElement = 6;
 
 /**
  * find pivotal point
@@ -17,18 +17,31 @@ $findElement = 1;
 **/
 function searchArrayInRotatedSortedArray(array $arrayToBeTraversed = [], int $elementToBeFound = 0) : int
 {
+    $index = -1;
     $pivotalPoint = findPivotalPoint($arrayToBeTraversed);
     if($pivotalPoint > -1){
-        if (($arrayToBeTraversed[$pivotalPoint] > $elementToBeFound) && ($elementToBeFound > $arrayToBeTraversed[0])) {
+        if (($arrayToBeTraversed[$pivotalPoint] >= $elementToBeFound) && ($elementToBeFound >= $arrayToBeTraversed[0])) {
+            // echo "1";
             $slicedArray = array_slice($arrayToBeTraversed, 0, $pivotalPoint);
-            return binarySearchInArray($slicedArray, $elementToBeFound);
-        }elseif(end($arrayToBeTraversed) > $elementToBeFound) && ($elementToBeFound > $arrayToBeTraversed[$pivotalPoint+1])){
+            $index = binarySearchInArray($slicedArray, $elementToBeFound);
+            if ($index >= 0) {
+                return $index;
+            }
+        }elseif((end($arrayToBeTraversed) >= $elementToBeFound) && ($elementToBeFound >= $arrayToBeTraversed[$pivotalPoint+1])){
+            // echo "2";
             $slicedArray = array_slice($arrayToBeTraversed, $pivotalPoint+1, count($arrayToBeTraversed));
-            return binarySearchInArray($slicedArray, $elementToBeFound);
+            $index = binarySearchInArray($slicedArray, $elementToBeFound);
+            if ($index >= 0) {
+                return $index+$pivotalPoint+1;
+            }
         }
     }else{
-        return binarySearchInArray($arrayToBeTraversed, $elementToBeFound);
+        $index = binarySearchInArray($arrayToBeTraversed, $elementToBeFound);
+        if ($index >= 0) {
+            return $index;
+        }
     }
+    return $index;
 }
 
 /**
@@ -72,11 +85,11 @@ function binarySearchInArray(array $arrayToBeSearched = [], $valueToBeSearched =
     if ($sizeOfArray == 0 || $valueToBeSearched == '') {
         return -1;
     }
-    if ($arrayToBeSearched[0] == $valueToBeSearched) {
+    if (current($arrayToBeSearched) == $valueToBeSearched) {
         return 0;
     }
     $middleIndex = floor($sizeOfArray/2);
-    echo $middleIndex."----\n";
+    // echo $middleIndex."----\n";
     if($arrayToBeSearched[$middleIndex] == $valueToBeSearched){
         // echo "=\n";
         return $middleIndex;
@@ -84,7 +97,7 @@ function binarySearchInArray(array $arrayToBeSearched = [], $valueToBeSearched =
         $recursedIndex = binarySearchInArray(array_slice($arrayToBeSearched, 0, $middleIndex-1), $valueToBeSearched);
         // echo "$arrayToBeSearched[$middleIndex] > $valueToBeSearched\n";
         return $recursedIndex;
-    }elseif($arrayToBeSearched[$middleIndex] < $valueToBeSearched && $valueToBeSearched < end($arrayToBeSearched)){
+    }elseif($arrayToBeSearched[$middleIndex] < $valueToBeSearched && $valueToBeSearched <= end($arrayToBeSearched)){
         $recursedIndex = binarySearchInArray(array_slice($arrayToBeSearched, $middleIndex+1, count($arrayToBeSearched)-$middleIndex), $valueToBeSearched);
         // echo "$arrayToBeSearched[$middleIndex] < $valueToBeSearched\n";
         return $middleIndex + 1 + $recursedIndex;
