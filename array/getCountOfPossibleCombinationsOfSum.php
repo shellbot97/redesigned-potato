@@ -46,12 +46,13 @@ function getPossibleCombinationsOfSum(array $numbers = [], int $expectedSum = 0)
                 $indexRequiredToCompleteSum = arrayValueExists($numbers, $expectedSumDelta);
                 // if the exact number which is required to complete the expected sum is found in the array 
                 if($indexRequiredToCompleteSum > -1){
-                    $combinations[] = implode("|", [$numbers[$i],$numbers[$i-1], $numbers[$indexRequiredToCompleteSum]]);
+                    addCombination([$numbers[$i],$numbers[$i-1], $numbers[$indexRequiredToCompleteSum]]);
                 }else{
-                       
+                    // recursively call getCombination function for indexRequiredToCompleteSum
+                    getPossibleCombinationsOfSum($numbers, $indexRequiredToCompleteSum);   
                 }
             }elseif($expectedSumDelta == 0){
-                $combinations[] = implode("|", [$numbers[$i],$numbers[$i-1]]);   
+                addCombination([$numbers[$i],$numbers[$i-1]]);   
             }
         }
     }
@@ -73,6 +74,11 @@ function arrayValueExists(array $arrayToBeTraversed = [], int $valueToBeSearched
         }
     }
     return -2;
+}
+
+function addCombination($combination = []) : void
+{
+    $combinations[] = implode("|", $combination);
 }
 
 print_r(getCountOfPossibleCombinationsOfSum($testCase1, $sum1));
