@@ -40,7 +40,7 @@ function binarySearchInArray(array $arrayToBeSearched = [], $valueToBeSearched =
         $recursedIndex = binarySearchInArray(array_slice($arrayToBeSearched, 0, $middleIndex-1), $valueToBeSearched);
         // echo "$arrayToBeSearched[$middleIndex] > $valueToBeSearched\n";
         return $recursedIndex;
-    }elseif($arrayToBeSearched[$middleIndex] < $valueToBeSearched && $valueToBeSearched < end($arrayToBeSearched)){
+    }elseif($arrayToBeSearched[$middleIndex] < $valueToBeSearched && $valueToBeSearched <= end($arrayToBeSearched)){
         $recursedIndex = binarySearchInArray(array_slice($arrayToBeSearched, $middleIndex+1, count($arrayToBeSearched)-$middleIndex), $valueToBeSearched);
         // echo "$arrayToBeSearched[$middleIndex] < $valueToBeSearched\n";
         return $middleIndex + 1 + $recursedIndex;
