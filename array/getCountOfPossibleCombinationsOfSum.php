@@ -5,8 +5,29 @@ $sum1 = 19;
 
 function getCountOfPossibleCombinationsOfSum(array $numbers = [], int $expectedSum = 0) : int 
 {
+    // Invalid input
+    if ((count($numbers) == 0) || ($expectedSum == 0)) {
+        return -1;   
+    }
+    // is max sum possible
+    $maxSumPossible = array_sum($numbers);
+    if ($expectedSum > $maxSumPossible) {
+        return -2;
+    }
     $combinations = [];
-    getPossibleCombinationsOfSum($numbers, $expectedSum);
+    // calculate first last element delta to decide from which end loop should start 
+    $firstIndexDelta = abs($expectedSum - current($numbers));
+    $lastIndexDelta = abs($expectedSum - end($numbers));
+    // if expected sum is closer to last index
+    if ($lastIndexDelta < $firstIndexDelta) {
+        for ($i = count($numbers)-1; $i <= 0; $i++) {
+            $combination = findPossibleCombinationsOfSum($numbers, $expectedSum);
+            addCombination($combination);
+        }
+    }else{
+        
+    }
+    findPossibleCombinationsOfSum($numbers, $expectedSum);
     return count($combinations); 
 }
 
@@ -22,48 +43,27 @@ function getCountOfPossibleCombinationsOfSum(array $numbers = [], int $expectedS
  * 19 = 9,8,2 | 8,7,4 
  *      
 **/
-function getPossibleCombinationsOfSum(array $numbers = [], int $expectedSum = 0) : void
+function findPossibleCombinationsOfSum(array $numbers = [], int $expectedSum = 0) : array
 {
-    // Invalid input
-    if ((count($numbers) == 0) || ($sum == 0)) {
-        return -1;   
-    }
-    // is max sum possible
-    $maxSumPossible = array_sum($numbers);
-    if ($expectedSum > $maxSumPossible) {
-        return -2;
-    }
-    // calculate first last element delta to decide from which end loop should start 
-    $firstIndexDelta = abs($expectedSum - current($numbers));
-    $lastIndexDelta = abs($expectedSum - end($numbers));
-    // if expected sum is closer to last index
-    if ($lastIndexDelta < $firstIndexDelta) {
-        for ($i = count($numbers)-1; $i <= 0; $i++) {
-            $indexSum = $numbers[$i]+$numbers[$i-1];
-            $expectedSumDelta = $expectedSum - $indexSum;
-            // if expected sum needs more number to complete, find the number in array
-            if ($expectedSumDelta > 0) {
-                $indexRequiredToCompleteSum = arrayValueExists($numbers, $expectedSumDelta);
-                // if the exact number which is required to complete the expected sum is found in the array 
-                if($indexRequiredToCompleteSum > -1){
-                    addCombination([$numbers[$i],$numbers[$i-1], $numbers[$indexRequiredToCompleteSum]]);
-                }else{
-                    // recursively call getCombination function for indexRequiredToCompleteSum
-                    getPossibleCombinationsOfSum($numbers, $indexRequiredToCompleteSum);   
-                }
-            }elseif($expectedSumDelta == 0){
-                addCombination([$numbers[$i],$numbers[$i-1]]);   
-            }
+    $indexSum = $numbers[$i]+$numbers[$i-1];
+    $expectedSumDelta = $expectedSum - $indexSum;
+    // if expected sum needs more number to complete, find the number in array
+    if ($expectedSumDelta > 0) {
+        $indexRequiredToCompleteSum = arrayValueExists($numbers, $expectedSumDelta);
+        // if the exact number which is required to complete the expected sum is found in the array 
+        if($indexRequiredToCompleteSum > -1){
+            return [$numbers[$i],$numbers[$i-1], $numbers[$indexRequiredToCompleteSum]];
+        }else{
+            // recursively call getCombination function for indexRequiredToCompleteSum
+            return findPossibleCombinationsOfSum($numbers, $indexRequiredToCompleteSum);
         }
+    }elseif($expectedSumDelta == 0){
+        return [$numbers[$i],$numbers[$i-1]];
     }
-    // if expected sum is closer to first index
-    else{
-        
-    }
-    
+    return [];
 }
 
-function arrayValueExists(array $arrayToBeTraversed = [], int $valueToBeSearched = '-1') : int
+function arrayValueExists(array $arrayToBeTraversed = [], int $valueToBeSearched = -1) : int
 {
     if($valueToBeSearched == -1 || count($arrayToBeTraversed) == 0){
         return -1; 
@@ -76,7 +76,7 @@ function arrayValueExists(array $arrayToBeTraversed = [], int $valueToBeSearched
     return -2;
 }
 
-function addCombination($combination = []) : void
+function addCombination($combination) : void
 {
     $combinations[] = implode("|", $combination);
 }
