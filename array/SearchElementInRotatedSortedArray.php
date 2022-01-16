@@ -2,7 +2,7 @@
 // https://www.geeksforgeeks.org/search-an-element-in-a-sorted-and-pivoted-array/
 // https://paiza.io/projects/TeWNffWBC8iEycDsLxnkLg?language=php
 
-$testCase1 = [4,5,6,7,8,9,1,2,3];
+$testCase1 = [1,2,3,4,5,6,7,8,9];
 $findElement = 6;
 
 /**
@@ -54,7 +54,7 @@ function searchArrayInRotatedSortedArray(array $arrayToBeTraversed = [], int $el
 function findPivotalPoint(array $pivotedArray = []) : int
 {
     for ($i = 0; $i < count($pivotedArray); $i++) {
-        if ($pivotedArray[$i+1] < $pivotedArray[$i]) {
+        if (isset($pivotedArray[$i+1]) && ($pivotedArray[$i+1] < $pivotedArray[$i])) {
             return $i;
         }
     }
