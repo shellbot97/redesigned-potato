@@ -1,87 +1,74 @@
 <?php
-// https://paiza.io/projects/glCuwn71K3KTpJBkkDLh7g?language=php
-$testCase1 = [1,2,3,4,5,6,7,8,9];
-$sum1 = 19;
 
-function getCountOfPossibleCombinationsOfSum(array $numbers = [], int $expectedSum = 0) : int 
+class Abc
 {
-    // Invalid input
-    if ((count($numbers) == 0) || ($expectedSum == 0)) {
-        return -1;   
+    public function __construct()
+    {
+        $this->numbers = [1,2,3,4,5,6,7,8];
+        $this->sum = 10;
+        $this->getCountOfPossibleCombinationsForSum();
     }
-    // is max sum possible
-    $maxSumPossible = array_sum($numbers);
-    if ($expectedSum > $maxSumPossible) {
-        return -2;
-    }
-    $combinations = [];
-    // calculate first last element delta to decide from which end loop should start 
-    $firstIndexDelta = abs($expectedSum - current($numbers));
-    $lastIndexDelta = abs($expectedSum - end($numbers));
-    // if expected sum is closer to last index
-    if ($lastIndexDelta < $firstIndexDelta) {
-        for ($i = count($numbers)-1; $i <= 0; $i++) {
-            $combination = findPossibleCombinationsOfSum($numbers, $expectedSum);
-            addCombination($combination);
+    
+    function getCountOfPossibleCombinationsForSum(){
+        if (array_sum($this->numbers) < $this->sum) {
+            return -1;
         }
-    }else{
-        
+        $combinations[] = $this->getCombinationsForSum($this->sum);
+        print_r($combinations);
     }
-    findPossibleCombinationsOfSum($numbers, $expectedSum);
-    return count($combinations); 
-}
-
-
-/**
- * does not consider negative numbers or floating point integers
- * the array has to be sorted
- * numbers: 123456789 | sum: 19
- * v1 : unique numbers
- * v2 : repeated numbers
- * if the value to be searched is closer to end
- *      start from end
- * 19 = 9,8,2 | 8,7,4 
- *      
-**/
-function findPossibleCombinationsOfSum(array $numbers = [], int $expectedSum = 0) : array
-{
-    $indexSum = $numbers[$i]+$numbers[$i-1];
-    $expectedSumDelta = $expectedSum - $indexSum;
-    // if expected sum needs more number to complete, find the number in array
-    if ($expectedSumDelta > 0) {
-        $indexRequiredToCompleteSum = arrayValueExists($numbers, $expectedSumDelta);
-        // if the exact number which is required to complete the expected sum is found in the array 
-        if($indexRequiredToCompleteSum > -1){
-            return [$numbers[$i],$numbers[$i-1], $numbers[$indexRequiredToCompleteSum]];
-        }else{
-            // recursively call getCombination function for indexRequiredToCompleteSum
-            return findPossibleCombinationsOfSum($numbers, $indexRequiredToCompleteSum);
+    
+    function getCombinationsForSum($expectedSum){
+        $numberExists = array_search($expectedSum, $this->numbers);
+        if ($numberExists !== false) {
+            echo "0\n";
+            return [$this->numbers[$numberExists]];
         }
-    }elseif($expectedSumDelta == 0){
-        return [$numbers[$i],$numbers[$i-1]];
-    }
-    return [];
-}
-
-function arrayValueExists(array $arrayToBeTraversed = [], int $valueToBeSearched = -1) : int
-{
-    if($valueToBeSearched == -1 || count($arrayToBeTraversed) == 0){
-        return -1; 
-    }
-    for ($i = 0; $i < count($arrayToBeTraversed); $i++) {
-        if($arrayToBeTraversed[$i] == $valueToBeSearched){
-            return $i;
+        $firstDelta = abs(current($this->numbers) - $expectedSum);
+        $lastDelta = abs(end($this->numbers) - $expectedSum);
+        if ($lastDelta < $firstDelta) {
+            echo "1\n";
+            for ($i = count($this->numbers)-1; $i >= 0; $i--) {
+                $this->sumDelta = $expectedSum - ($this->numbers[$i] + $this->numbers[$i-1]);
+                if ($this->sumDelta == 0) {
+                    echo "1.1\n";
+                    return [$this->numbers[$i], $this->numbers[$i-1]];
+                }
+                elseif($this->sumDelta > 0) {
+                    echo "1.2\n";
+                    return array_merge($this->getCombinationsForSum($this->sumDelta), [$this->numbers[$i], $this->numbers[$i-1]]);
+                }
+                elseif($this->sumDelta < 0) {
+                    echo "1.3\n";
+                    if ($expectedSum > $this->numbers[$i]) {
+                        echo "1.3.1\n";
+                        $remainingSumDelta = $expectedSum - $this->numbers[$i];
+                        return array_merge($this->getCombinationsForSum($remainingSumDelta), [$this->numbers[$i]]);
+                    }
+                }
+            }
+        } else {
+            echo "2\n";
+            for ($i = 0; $i < count($this->numbers); $i++) {
+                $this->sumDelta = $expectedSum - ($this->numbers[$i] + $this->numbers[$i+1]);
+                if ($this->sumDelta == 0) {
+                    echo "2.1\n";
+                    return [$this->numbers[$i], $this->numbers[$i+1]];
+                }
+                elseif($this->sumDelta > 0) {
+                    echo "2.2\n";
+                    return array_merge($this->getCombinationsForSum($this->sumDelta), [$this->numbers[$i], $this->numbers[$i+1]]);
+                }
+                elseif($this->sumDelta < 0) {
+                    echo "2.3\n";
+                    if ($expectedSum > $this->numbers[$i]) {
+                        echo "2.3.1\n";
+                        $remainingSumDelta = $expectedSum - $this->numbers[$i];
+                        return array_merge($this->getCombinationsForSum($remainingSumDelta), [$this->numbers[$i]]);
+                    }
+                }
+            }
         }
     }
-    return -2;
 }
 
-function addCombination($combination) : void
-{
-    $combinations[] = implode("|", $combination);
-}
-
-print_r(getCountOfPossibleCombinationsOfSum($testCase1, $sum1));
-
-
-?>
+(new Abc());
