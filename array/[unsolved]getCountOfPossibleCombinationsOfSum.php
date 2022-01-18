@@ -8,8 +8,8 @@ class Abc
 {
     public function __construct()
     {
-        $this->numbers = [1,2,4,5,6,7,8];
-        $this->sum = 8;
+        $this->numbers = [1,2,3,4,5,6,7,8];
+        $this->sum = 15;
         $this->combinations = [];
         $this->getCountOfPossibleCombinationsForSum();    
         
@@ -43,7 +43,7 @@ class Abc
             echo "1\n";
             for ($i = count($this->numbers)-1; $i >= 0; $i--) {
                 $this->sumDelta = $expectedSum - ($this->numbers[$i] + $this->numbers[$i-1]);
-                if ($this->sumDelta == 0 && $this->combinationNotExists()) {
+                if ($this->sumDelta == 0) {
                     echo "1.1\n";
                     $combin = implode("|", [$this->numbers[$i], $this->numbers[$i-1]]);
                     if($this->combinationNotExists($combin)){
