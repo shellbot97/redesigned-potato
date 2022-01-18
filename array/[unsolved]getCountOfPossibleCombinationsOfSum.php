@@ -2,7 +2,7 @@
 
 // https://paiza.io/projects/glCuwn71K3KTpJBkkDLh7g?language=php
 // brute force solution
-
+// https://stackoverflow.com/questions/4632322/finding-all-possible-combinations-of-numbers-to-reach-a-given-sum
 
 class Abc
 {
